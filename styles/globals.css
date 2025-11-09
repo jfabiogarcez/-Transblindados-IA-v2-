@@ -1,18 +1,39 @@
-import "@/styles/globals.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-export const metadata = {
-  title: "Transblindados IA v2",
-  description: "Sistema inteligente Transblindados IA",
-};
+/* ========================
+   Global Resets & Defaults
+   ======================== */
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}): React.ReactElement {
-  return (
-    <html lang="pt-BR">
-      <body>{children}</body>
-    </html>
-  );
+html,
+body {
+  @apply bg-gray-50 text-gray-900 min-h-screen antialiased;
+  font-family: 'Inter', sans-serif;
+}
+
+a {
+  @apply text-blue-600 hover:text-blue-700 transition-colors;
+}
+
+button {
+  @apply rounded-lg px-4 py-2 font-medium transition-colors;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-semibold text-gray-800;
+}
+
+/* Scrollbar (moderno e leve) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
