@@ -37,3 +37,53 @@ h1, h2, h3, h4, h5, h6 {
 * {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./pages/**/*.{ts,tsx}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ["Inter", "ui-sans-serif", "system-ui"],
+      },
+      colors: {
+        primary: {
+          DEFAULT: "#2563eb",
+          dark: "#1e3a8a",
+          light: "#60a5fa",
+        },
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+import "@/styles/globals.css";
+
+export const metadata = {
+  title: "Transblindados IA v2",
+  description: "Sistema inteligente Transblindados IA",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.ReactElement {
+  return (
+    <html lang="pt-BR">
+      <body>{children}</body>
+    </html>
+  );
+}
