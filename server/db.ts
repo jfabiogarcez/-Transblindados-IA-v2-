@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, products, orders, orderItems, InsertProduct, InsertOrder, InsertOrderItem } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,107 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Products
+export async function getAllProducts() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(products).where(eq(products.isActive, 1)).orderBy(desc(products.createdAt));
+}
+
+export async function getProductById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(products).where(eq(products.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createProduct(product: InsertProduct) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(products).values(product);
+  return result;
+}
+
+export async function updateProduct(id: number, product: Partial<InsertProduct>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(products).set(product).where(eq(products.id, id));
+}
+
+export async function deleteProduct(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Soft delete
+  await db.update(products).set({ isActive: 0 }).where(eq(products.id, id));
+}
+
+// Orders
+export async function createOrder(order: InsertOrder) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(orders).values(order);
+  return result[0].insertId;
+}
+
+export async function getOrderById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(orders).where(eq(orders.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getAllOrders() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(orders).orderBy(desc(orders.createdAt));
+}
+
+export async function updateOrderStatus(id: number, status: string, paymentId?: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData: any = { status };
+  if (paymentId) {
+    updateData.paymentId = paymentId;
+  }
+  
+  await db.update(orders).set(updateData).where(eq(orders.id, id));
+}
+
+// Order Items
+export async function createOrderItem(item: InsertOrderItem) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.insert(orderItems).values(item);
+}
+
+export async function getOrderItems(orderId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(orderItems).where(eq(orderItems.orderId, orderId));
+}
+
+export async function getOrderWithItems(orderId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const order = await getOrderById(orderId);
+  if (!order) return null;
+  
+  const items = await getOrderItems(orderId);
+  
+  return {
+    ...order,
+    items,
+  };
+}
