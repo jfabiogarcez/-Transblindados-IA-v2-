@@ -74,14 +74,12 @@ export default function Home() {
           <p className="text-xl md:text-2xl font-light max-w-2xl mx-auto">
             Elegância e sofisticação em cada peça
           </p>
-          <Button size="lg" className="bg-white text-primary hover:bg-white/90" asChild>
-            <Link href="/produtos">
-              <a className="flex items-center space-x-2">
-                <span>Ver Coleção</span>
-                <ArrowRight className="h-5 w-5" />
-              </a>
-            </Link>
-          </Button>
+          <Link href="/produtos">
+            <Button size="lg" className="bg-white text-primary hover:bg-white/90 flex items-center space-x-2">
+              <span>Ver Coleção</span>
+              <ArrowRight className="h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </section>
 
@@ -162,11 +160,11 @@ export default function Home() {
 
           {products && products.length > 8 && (
             <div className="text-center mt-12">
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/produtos">
-                  <a>Ver Todos os Produtos</a>
-                </Link>
-              </Button>
+              <Link href="/produtos">
+                <Button size="lg" variant="outline">
+                  Ver Todos os Produtos
+                </Button>
+              </Link>
             </div>
           )}
         </div>

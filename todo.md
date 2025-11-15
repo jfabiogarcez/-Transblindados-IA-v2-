@@ -49,3 +49,7 @@
 - [x] Criar template de nota fiscal/recibo em HTML
 - [x] Implementar envio de email com nota fiscal após pagamento confirmado
 - [x] Incluir detalhes do pedido na nota fiscal (produtos, valores, dados do cliente)
+
+
+## Correções
+- [x] Corrigir erro de elementos <a> aninhados no componente Home
