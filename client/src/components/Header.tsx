@@ -22,28 +22,28 @@ export default function Header({ cartItemCount = 0, onCartClick }: HeaderProps) 
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/">
-          <a className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+          <div className="flex items-center space-x-2 hover:opacity-80 transition-opacity cursor-pointer">
             <h1 className="text-2xl font-bold text-primary">Allure</h1>
-          </a>
+          </div>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link href="/">
-            <a className={`text-sm font-medium transition-colors hover:text-primary ${location === '/' ? 'text-primary' : 'text-foreground'}`}>
+            <span className={`text-sm font-medium transition-colors hover:text-primary cursor-pointer ${location === '/' ? 'text-primary' : 'text-foreground'}`}>
               Início
-            </a>
+            </span>
           </Link>
           <Link href="/produtos">
-            <a className={`text-sm font-medium transition-colors hover:text-primary ${location === '/produtos' ? 'text-primary' : 'text-foreground'}`}>
+            <span className={`text-sm font-medium transition-colors hover:text-primary cursor-pointer ${location === '/produtos' ? 'text-primary' : 'text-foreground'}`}>
               Produtos
-            </a>
+            </span>
           </Link>
           {isAdmin && (
             <Link href="/admin">
-              <a className={`text-sm font-medium transition-colors hover:text-primary ${location === '/admin' ? 'text-primary' : 'text-foreground'}`}>
+              <span className={`text-sm font-medium transition-colors hover:text-primary cursor-pointer ${location === '/admin' ? 'text-primary' : 'text-foreground'}`}>
                 Admin
-              </a>
+              </span>
             </Link>
           )}
         </nav>
@@ -95,29 +95,29 @@ export default function Header({ cartItemCount = 0, onCartClick }: HeaderProps) 
         <div className="md:hidden border-t bg-background">
           <nav className="container py-4 flex flex-col space-y-4">
             <Link href="/">
-              <a
-                className={`text-sm font-medium transition-colors hover:text-primary ${location === '/' ? 'text-primary' : 'text-foreground'}`}
+              <span
+                className={`text-sm font-medium transition-colors hover:text-primary cursor-pointer ${location === '/' ? 'text-primary' : 'text-foreground'}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Início
-              </a>
+              </span>
             </Link>
             <Link href="/produtos">
-              <a
-                className={`text-sm font-medium transition-colors hover:text-primary ${location === '/produtos' ? 'text-primary' : 'text-foreground'}`}
+              <span
+                className={`text-sm font-medium transition-colors hover:text-primary cursor-pointer ${location === '/produtos' ? 'text-primary' : 'text-foreground'}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Produtos
-              </a>
+              </span>
             </Link>
             {isAdmin && (
               <Link href="/admin">
-                <a
-                  className={`text-sm font-medium transition-colors hover:text-primary ${location === '/admin' ? 'text-primary' : 'text-foreground'}`}
+                <span
+                  className={`text-sm font-medium transition-colors hover:text-primary cursor-pointer ${location === '/admin' ? 'text-primary' : 'text-foreground'}`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Admin
-                </a>
+                </span>
               </Link>
             )}
           </nav>

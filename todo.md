@@ -53,3 +53,4 @@
 
 ## Correções
 - [x] Corrigir erro de elementos <a> aninhados no componente Home
+- [x] Corrigir elementos <a> aninhados no Header
