@@ -182,6 +182,31 @@ export const appRouter = router({
         return { success: true };
       }),
     
+    createStripeCheckout: publicProcedure
+      .input(z.object({
+        orderId: z.number(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const order = await db.getOrderWithItems(input.orderId);
+        if (!order) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Order not found' });
+        }
+        
+        const { createCheckoutSession } = await import("./stripe/checkout");
+        const origin = ctx.req.headers.origin || 'http://localhost:3000';
+        
+        const { url, sessionId } = await createCheckoutSession({
+          orderId: order.id,
+          customerEmail: order.customerEmail,
+          customerName: order.customerName,
+          items: order.items,
+          totalAmount: order.totalAmount,
+          origin,
+        });
+        
+        return { checkoutUrl: url, sessionId };
+      }),
+    
     confirmPayment: publicProcedure
       .input(z.object({
         orderId: z.number(),

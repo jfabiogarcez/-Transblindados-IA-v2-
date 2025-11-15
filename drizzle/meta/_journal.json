@@ -15,6 +15,13 @@
       "when": 1763234176141,
       "tag": "0001_same_songbird",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1763235586850,
+      "tag": "0002_bizarre_typhoid_mary",
+      "breakpoints": true
     }
   ]
 }

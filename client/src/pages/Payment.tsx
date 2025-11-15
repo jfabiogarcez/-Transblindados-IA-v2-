@@ -30,6 +30,21 @@ export default function Payment() {
     },
   });
 
+  const stripeCheckoutMutation = trpc.orders.createStripeCheckout.useMutation({
+    onSuccess: (data) => {
+      toast.success("Redirecionando para pagamento seguro...");
+      window.open(data.checkoutUrl, "_blank");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Erro ao criar sessão de pagamento");
+    },
+  });
+
+  const handleStripePayment = () => {
+    if (!orderId) return;
+    stripeCheckoutMutation.mutate({ orderId });
+  };
+
   const handleConfirmPayment = () => {
     if (!orderId) return;
     confirmPaymentMutation.mutate({
@@ -139,7 +154,35 @@ export default function Payment() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div>
-                    <h3 className="font-semibold text-lg mb-3">Opção 1: PIX</h3>
+                    <h3 className="font-semibold text-lg mb-3">Opção 1: Cartão de Crédito (Stripe)</h3>
+                    <div className="bg-muted/50 rounded-lg p-4 space-y-3">
+                      <p className="text-sm text-muted-foreground">
+                        Pague com segurança usando cartão de crédito através do Stripe.
+                      </p>
+                      <Button
+                        size="lg"
+                        className="w-full"
+                        onClick={handleStripePayment}
+                        disabled={stripeCheckoutMutation.isPending}
+                      >
+                        {stripeCheckoutMutation.isPending
+                          ? "Processando..."
+                          : "Pagar com Cartão de Crédito"}
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-background px-2 text-muted-foreground">Ou</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold text-lg mb-3">Opção 2: PIX</h3>
                     <div className="bg-muted/50 rounded-lg p-4 space-y-3">
                       <p className="text-sm text-muted-foreground">
                         Faça um PIX para a chave abaixo:
@@ -159,7 +202,7 @@ export default function Payment() {
                   </div>
 
                   <div>
-                    <h3 className="font-semibold text-lg mb-3">Opção 2: Transferência Bancária</h3>
+                    <h3 className="font-semibold text-lg mb-3">Opção 3: Transferência Bancária</h3>
                     <div className="bg-muted/50 rounded-lg p-4 space-y-2 text-sm">
                       <p><strong>Banco:</strong> Banco do Brasil</p>
                       <p><strong>Agência:</strong> 1234-5</p>
@@ -173,8 +216,8 @@ export default function Payment() {
 
                   <div className="border-t pt-6">
                     <p className="text-sm text-muted-foreground mb-4">
-                      Após realizar o pagamento, clique no botão abaixo para confirmar. Você receberá
-                      uma nota fiscal por email automaticamente.
+                      <strong>Importante:</strong> Se você pagou com cartão de crédito (Stripe), a confirmação é automática.
+                      Para PIX ou transferência, clique no botão abaixo após realizar o pagamento.
                     </p>
                     <Button
                       size="lg"

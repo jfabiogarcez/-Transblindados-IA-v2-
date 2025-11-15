@@ -54,3 +54,11 @@
 ## Correções
 - [x] Corrigir erro de elementos <a> aninhados no componente Home
 - [x] Corrigir elementos <a> aninhados no Header
+
+
+## Integração Stripe
+- [x] Adicionar feature Stripe ao projeto
+- [x] Criar endpoint para criar sessão de checkout do Stripe
+- [x] Atualizar página de pagamento com botão do Stripe
+- [x] Implementar webhook para confirmar pagamentos
+- [x] Testar fluxo de pagamento com Stripe

@@ -52,6 +52,8 @@ export const orders = mysqlTable("orders", {
   status: mysqlEnum("status", ["pending", "paid", "processing", "shipped", "delivered", "cancelled"]).default("pending").notNull(),
   paymentMethod: varchar("paymentMethod", { length: 50 }),
   paymentId: varchar("paymentId", { length: 255 }), // PayPal transaction ID
+  stripePaymentIntentId: varchar("stripePaymentIntentId", { length: 255 }), // Stripe Payment Intent ID
+  stripeSessionId: varchar("stripeSessionId", { length: 255 }), // Stripe Checkout Session ID
   notes: text("notes"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
